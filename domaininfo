@@ -29,25 +29,25 @@ fi
 
 #show whois info for domain
 get_whois () {
-_myos=$(uname)
-case $_myos in
-    Linux)
-	WHOIS="$(which whois) -H $DOMAIN"
-	;;
-    Darwin)
-	WHOIS="$(which whois) $DOMAIN"
-	;;
-    *)
-	;;
-esac
+    _myos=$(uname)
+    case $_myos in
+	Linux)
+	    WHOIS="$(which whois) -H $DOMAIN"
+	    ;;
+	Darwin)
+	    WHOIS="$(which whois) $DOMAIN"
+	    ;;
+	*)
+	    ;;
+    esac
 
-if $WHOIS |grep -q "no entries found";
-then
-   echo "No WHOIS available for $DOMAIN";
-   exit 1
-else
-    $WHOIS $DOMAIN
-fi
+    if $WHOIS |grep -q "no entries found";
+    then
+       echo "No WHOIS available for $DOMAIN";
+       exit 1
+    else
+	$WHOIS $DOMAIN
+    fi
 }
 
 get_whois
