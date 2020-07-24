@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #
 # script to pull info about a given domain
 
