@@ -7,12 +7,13 @@ DOMAIN=$1
 #show DNS info for domain
 getips () {
     DIGOPTS='+noall +answer -t'
+    DIG="$(which dig) $DIGOPTS"
 
     for RECORD in ns mx a cname aaaa txt srv
     do
 	echo $RECORD | awk '{print toupper($0)}'
 	echo -------------------------
-	dig $DIGOPTS $RECORD $DOMAIN
+	$DIG $RECORD $DOMAIN
     done
 }
 
@@ -27,6 +28,7 @@ fi
 #	    legal output from whois for mac
 
 #show whois info for domain
+get_whois () {
 _myos=$(uname)
 case $_myos in
     Linux)
@@ -39,14 +41,14 @@ case $_myos in
 	;;
 esac
 
-#WHOIS="whois -H $DOMAIN"
-#WHOIS="whois $DOMAIN"
-
 if $WHOIS |grep -q "no entries found";
 then
    echo "No WHOIS available for $DOMAIN";
    exit 1
 else
     $WHOIS $DOMAIN
-   getips $DOMAIN
 fi
+}
+
+get_whois
+getips
