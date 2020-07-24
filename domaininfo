@@ -7,7 +7,6 @@ DOMAIN=$1
 #show DNS info for domain
 getips () {
     DIGOPTS='+noall +answer -t'
-    DOMAIN=$1
 
     for RECORD in ns mx a cname aaaa txt srv
     do
