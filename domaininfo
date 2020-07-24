@@ -11,7 +11,8 @@ getips () {
 
     for RECORD in ns mx a cname aaaa txt srv
     do
-	printf "%s\n%s\n" "${RECORD^^}" "-------------------------"
+	#printf "%s\n%s\n" ""${RECORD^^}"" "-------------------------"
+	printf "${RECORD^^} %s\n" "-------------------------"
 	#echo ${RECORD^^}
 	#echo -------------------------
 	$DIG $RECORD "$DOMAIN"
@@ -23,7 +24,7 @@ showuse () {
     echo "Usage: $0 <domain>"
 }
 
-[ -n "$DOMAIN" ]; showuse
+[ -n "$DOMAIN" ] || showuse
 
 # FIXME -- `whois -H` is not valid on macOS, consider finding another way to supress
 #	    legal output from whois for mac
@@ -33,23 +34,24 @@ get_whois () {
     _myos=$(uname)
     case $_myos in
 	Linux)
-	    WHOIS="$(which whois) -H "$DOMAIN""
+	    WHOIS="$(which whois) -H "
 	    ;;
 	Darwin)
-	    WHOIS="$(which whois) "$DOMAIN""
+	    WHOIS="$(which whois) "
 	    ;;
 	*)
 	    ;;
     esac
 
-    if $WHOIS |grep -q "no entries found";
+    #show message if no whois data found otherwise output whois to screen
+    if [[ "$WHOIS" == *'no entries found'* ]] 
     then
-       echo "No WHOIS available for "$DOMAIN"";
+       printf '%s\n\%s' "No WHOIS available for" "$DOMAIN"
        exit 1
     else
 	$WHOIS "$DOMAIN"
     fi
 }
 
-#get_whois
-getips
+get_whois
+#getips
