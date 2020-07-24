@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #
 # script to pull info about a given domain
 
@@ -11,8 +11,9 @@ getips () {
 
     for RECORD in ns mx a cname aaaa txt srv
     do
-	echo ${RECORD^^}
-	echo -------------------------
+	printf "%s\n%s\n" "${RECORD^^}" "-------------------------"
+	#echo ${RECORD^^}
+	#echo -------------------------
 	$DIG $RECORD "$DOMAIN"
     done
 }
@@ -22,7 +23,7 @@ showuse () {
     echo "Usage: $0 <domain>"
 }
 
-[ -n "$DOMAIN" ] && showuse
+[ -n "$DOMAIN" ]; showuse
 
 # FIXME -- `whois -H` is not valid on macOS, consider finding another way to supress
 #	    legal output from whois for mac
@@ -50,5 +51,5 @@ get_whois () {
     fi
 }
 
-get_whois
+#get_whois
 getips
