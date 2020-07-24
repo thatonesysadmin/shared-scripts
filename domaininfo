@@ -11,7 +11,7 @@ getips () {
 
     for RECORD in ns mx a cname aaaa txt srv
     do
-	echo $RECORD | awk '{print toupper($0)}'
+	echo ${RECORD^^}
 	echo -------------------------
 	$DIG $RECORD $DOMAIN
     done
@@ -21,6 +21,7 @@ getips () {
 showuse () {
     echo "Usage: $0 <domain>"
 }
+
 [ -n $DOMAIN ] && showuse
 
 # FIXME -- `whois -H` is not valid on macOS, consider finding another way to supress
