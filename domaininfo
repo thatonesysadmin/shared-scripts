@@ -7,15 +7,13 @@ DOMAIN=$1
 #show DNS info for domain
 getips () {
     DIGOPTS='+noall +answer -t'
-    DIG="$(which dig) $DIGOPTS"
+    #DIG="$(which dig) $DIGOPTS"
 
     for RECORD in ns mx a cname aaaa txt srv
     do
-	#printf "%s\n%s\n" ""${RECORD^^}"" "-------------------------"
-	printf "${RECORD^^} %s\n" "-------------------------"
-	#echo ${RECORD^^}
-	#echo -------------------------
-	$DIG $RECORD "$DOMAIN"
+	echo ${RECORD^^}
+	echo -------------------------
+	dig $DIGOPTS $RECORD "$DOMAIN"
     done
 }
 
@@ -53,5 +51,5 @@ get_whois () {
     fi
 }
 
-get_whois
-#getips
+#get_whois
+getips
